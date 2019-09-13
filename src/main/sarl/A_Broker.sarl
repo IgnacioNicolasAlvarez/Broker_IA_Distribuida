@@ -26,8 +26,10 @@ agent A_Broker {
 		in(2000)[LlamarAConsurso(codProd)]
 	}
 
-	def LlamarAConsurso(codProducto : Integer) {
-		if (defaultSpace.participants.size > 3) {
+	def LlamarAConsurso(codProducto : Integer) 
+	{
+		if (defaultSpace.participants.size > 3) 
+		{
 			println("Broker llamando a consurso por producto: " + codProducto)
 			emit(new SolicitarPropuestasParaProducto(codProducto))
 		} else {

@@ -27,3 +27,12 @@ event SolicitarPropuestasParaProducto
 		codigoProducto = v
 	}
 }
+
+event LlamarAConsurso
+{
+	var codigoProducto : Integer
+
+	new (v : Integer) {
+		codigoProducto = v
+	}
+}
