@@ -1,0 +1,24 @@
+/** 
+ * 
+ */
+
+import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
+
+/** 
+ * @author ina
+ * 
+ */
+agent BootAgent {
+	uses Logging, Lifecycle
+
+	on Initialize {
+
+		spawn(A_Cliente)
+		spawn(A_Broker)		
+				
+	}
+
+	
+}

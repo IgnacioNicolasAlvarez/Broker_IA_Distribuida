@@ -4,22 +4,35 @@
 
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Schedules
 
 /** 
  * @author ina
  * 
  */
 agent A_Broker {
-	uses Logging
+	uses DefaultContextInteractions, Schedules, Logging
+
 
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
-		info("The agent was started.")
+		info("Se creó un agente Broker")
 	}
 
 	on SolicitarProducto
 	{
-		
+		println("Broker recibió solicitud de Pedido")
+		var codProd = occurrence.codigoProducto
+		in(2000)[LlamarAConsurso(codProd)]
+	}
+
+	def LlamarAConsurso(codProducto : Integer) {
+		if (defaultSpace.participants.size > 3) {
+			println("Broker llamando a consurso por producto: " + codProducto)
+			emit(new SolicitarPropuestasParaProducto(codProducto))
+		} else {
+			println("Broker esperando al Proveedores")
+			in(2000)[LlamarAConsurso(codProducto)]
+		}
 	}
 }

@@ -4,21 +4,34 @@
 
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
+import io.sarl.core.Schedules
+import io.sarl.core.DefaultContextInteractions
 
 /** 
  * @author ina
  * 
  */
 agent A_Cliente {
-	uses Logging
-
+	uses DefaultContextInteractions, Schedules, Logging
+	val codProducto = 1
+	
 	on Initialize {
-		// Event trigger before the agent begin to live or to be used.
-		// You should put all the initialization statements in this block of code.
-		info("The agent was started.")
+		info("Se creó un agente Cliente.")
+		in(2000)[solicitarProducto(codProducto)]
 	}
-	
-	
+
+	def solicitarProducto(codProducto : Integer) {
+		if (defaultSpace.participants.size > 2) 
+		{
+			println("Agente solicitando Producto")
+			emit(new SolicitarProducto(codProducto))
+		} 
+		else 
+		{
+			println("Agente esperando al Broker")
+			in(2000)[solicitarProducto(codProducto)]
+		}
+	}
 
 	
 }
