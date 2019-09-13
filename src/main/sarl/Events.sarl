@@ -1,0 +1,20 @@
+/** 
+ * 
+ */
+
+/** 
+ * @author ina
+ * 
+ */
+event Events
+
+//CRITERIOS: DELIVER y PRICE
+
+event SolicitarProducto
+{
+	var codigoProducto : Integer
+
+	new (v : Integer) {
+		codigoProducto = v
+	}
+}
