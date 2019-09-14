@@ -47,3 +47,13 @@ event BialDeProveedor
 		price = x
 	}
 }
+
+event InformarExistencias {
+	var codigoProducto : Integer
+	var disponibilidad : Boolean
+
+	new (v : Integer, x : Boolean) {
+		codigoProducto = v
+		disponibilidad = x
+	}
+}

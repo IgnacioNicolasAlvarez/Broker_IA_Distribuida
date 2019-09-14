@@ -16,32 +16,47 @@ agent A_Proveedor {
 	uses DefaultContextInteractions, Schedules, Logging
 	
 	var listaProductos : ArrayList<Producto>
+	var precioDeliver = 10.0
+
 	
 	on Initialize {
 		info("Proveedor fue creado")
+		precioDeliver = 15.0
+		
+		var factorPrecio = Math.random()
+		var precioBaseProducto = 10
+		var cantProductos = 10
 		
 		listaProductos = new ArrayList<Producto>()
-		listaProductos.add(new Producto(1, 10.50))
+		cargarListaProductos(factorPrecio * precioBaseProducto, listaProductos, cantProductos)
 	}
 	
 	on SolicitarPropuestasParaProducto
 	{
 		println("Proveedor respondiendo al concurso")
 		var codProd = occurrence.codigoProducto
-		in(4000)[emitirBial(codProd)]
+		in(4000)[ComprobarExistencias(codProd)]
 	}
 	
-	def emitirBial(codProd: Integer)
+	
+	
+	
+	//comportamientos
+	
+	def ComprobarExistencias(codProd_Aux: Integer)
 	{
 		for(x : listaProductos)
 		{
-			if(codProd == x.codigo)
+			if (codProd_Aux == x.codigo)
 			{
-				println("TENGO EL PRODUCTO")
+				emit(new InformarExistencias(codProd_Aux, (x.stock > 0)))
 			}
 		}	
 	}
 	
-	
+	def cargarListaProductos(precioFactor : Double ,lista : ArrayList<Producto>, cantProd : Integer)
+	{
+		lista.add(new Producto(1, precioFactor, cantProd))
+	}
 	
 }

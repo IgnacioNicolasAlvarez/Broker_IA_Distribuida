@@ -57,7 +57,4 @@ public class BialDeProveedor extends Event {
     builder.add("deliver", this.deliver);
     builder.add("price", this.price);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 3051156827L;
 }

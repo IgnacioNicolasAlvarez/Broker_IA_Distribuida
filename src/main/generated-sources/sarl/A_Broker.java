@@ -44,6 +44,26 @@ public class A_Broker extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(2000, _function);
   }
   
+  private void $behaviorUnit$InformarExistencias$2(final InformarExistencias occurrence) {
+    InputOutput.<String>println("Hay Existencias");
+  }
+  
+  @SyntheticMember
+  @Pure
+  private boolean $behaviorUnitGuard$InformarExistencias$2(final InformarExistencias it, final InformarExistencias occurrence) {
+    return ((occurrence.disponibilidad) == null ? false : (occurrence.disponibilidad).booleanValue());
+  }
+  
+  private void $behaviorUnit$InformarExistencias$3(final InformarExistencias occurrence) {
+    InputOutput.<String>println("No Hay Existencias");
+  }
+  
+  @SyntheticMember
+  @Pure
+  private boolean $behaviorUnitGuard$InformarExistencias$3(final InformarExistencias it, final InformarExistencias occurrence) {
+    return (((occurrence.disponibilidad) == null ? false : (occurrence.disponibilidad).booleanValue()) == false);
+  }
+  
   protected AgentTask LlamarAConsurso(final Integer codProducto) {
     AgentTask _xifexpression = null;
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
@@ -127,6 +147,19 @@ public class A_Broker extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$SolicitarProducto$1(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$InformarExistencias(final InformarExistencias occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    if ($behaviorUnitGuard$InformarExistencias$2(occurrence, occurrence)) {
+      ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$InformarExistencias$2(occurrence));
+    }
+    if ($behaviorUnitGuard$InformarExistencias$3(occurrence, occurrence)) {
+      ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$InformarExistencias$3(occurrence));
+    }
   }
   
   @SyntheticMember

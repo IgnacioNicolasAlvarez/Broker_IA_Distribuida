@@ -14,14 +14,22 @@ public class Producto {
   
   private Double precio;
   
-  public Producto(final Integer v, final Double x) {
+  private Integer stock;
+  
+  public Producto(final Integer v, final Double x, final Integer s) {
     this.codigo = v;
     this.precio = x;
+    this.stock = s;
   }
   
   @Pure
   public Integer getCodigo() {
     return this.codigo;
+  }
+  
+  @Pure
+  public Integer getStock() {
+    return this.stock;
   }
   
   @Pure
@@ -44,6 +52,8 @@ public class Producto {
       return false;
     if (Double.doubleToLongBits(other.precio) != Double.doubleToLongBits(this.precio))
       return false;
+    if (other.stock != this.stock)
+      return false;
     return super.equals(obj);
   }
   
@@ -55,6 +65,7 @@ public class Producto {
     final int prime = 31;
     result = prime * result + this.codigo;
     result = prime * result + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
+    result = prime * result + this.stock;
     return result;
   }
 }

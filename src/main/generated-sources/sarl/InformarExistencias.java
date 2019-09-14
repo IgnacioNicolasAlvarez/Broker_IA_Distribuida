@@ -8,11 +8,14 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class SolicitarProducto extends Event {
+public class InformarExistencias extends Event {
   public Integer codigoProducto;
   
-  public SolicitarProducto(final Integer v) {
+  public Boolean disponibilidad;
+  
+  public InformarExistencias(final Integer v, final Boolean x) {
     this.codigoProducto = v;
+    this.disponibilidad = x;
   }
   
   @Override
@@ -25,8 +28,10 @@ public class SolicitarProducto extends Event {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    SolicitarProducto other = (SolicitarProducto) obj;
+    InformarExistencias other = (InformarExistencias) obj;
     if (other.codigoProducto != this.codigoProducto)
+      return false;
+    if (other.disponibilidad != this.disponibilidad)
       return false;
     return super.equals(obj);
   }
@@ -38,16 +43,18 @@ public class SolicitarProducto extends Event {
     int result = super.hashCode();
     final int prime = 31;
     result = prime * result + this.codigoProducto;
+    result = prime * result + (this.disponibilidad ? 1231 : 1237);
     return result;
   }
   
   /**
-   * Returns a String representation of the SolicitarProducto event's attributes only.
+   * Returns a String representation of the InformarExistencias event's attributes only.
    */
   @SyntheticMember
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
     builder.add("codigoProducto", this.codigoProducto);
+    builder.add("disponibilidad", this.disponibilidad);
   }
 }

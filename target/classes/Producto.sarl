@@ -10,16 +10,22 @@ class Producto extends Object {
 	
 	var codigo : Integer
 	var precio : Double
+	var stock : Integer
 	
-	new (v : Integer, x : Double)
+	new (v : Integer, x : Double, s : Integer)
 	{
 		codigo = v
 		precio = x
+		stock = s
 	}
 	
 	def getCodigo : Integer
 	{
 		this.codigo
+	}
+
+	def getStock : Integer {
+		this.stock
 	}
 	
 	def getPrecio : Double

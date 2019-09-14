@@ -50,7 +50,4 @@ public class LlamarAConsurso extends Event {
     super.toString(builder);
     builder.add("codigoProducto", this.codigoProducto);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 33952510L;
 }

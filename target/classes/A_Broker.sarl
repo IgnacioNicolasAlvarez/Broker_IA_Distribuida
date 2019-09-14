@@ -25,7 +25,21 @@ agent A_Broker {
 		var codProd = occurrence.codigoProducto
 		in(2000)[LlamarAConsurso(codProd)]
 	}
+	
+	///ver
+	on InformarExistencias [occurrence.disponibilidad]
+	{
+		println("Hay Existencias")
+		// solicitarUnaExistencia
+	}
 
+	on InformarExistencias [occurrence.disponibilidad == false] {
+		println("No Hay Existencias")
+	}
+
+	
+	// comportamientos
+	
 	def LlamarAConsurso(codProducto : Integer) 
 	{
 		if (defaultSpace.participants.size > 3) 
@@ -37,4 +51,6 @@ agent A_Broker {
 			in(2000)[LlamarAConsurso(codProducto)]
 		}
 	}
+	
+	 
 }

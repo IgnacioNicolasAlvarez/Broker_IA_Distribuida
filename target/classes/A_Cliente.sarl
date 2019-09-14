@@ -20,11 +20,17 @@ agent A_Cliente {
 		in(2000)[solicitarProducto(codProducto)]
 	}
 
-	def solicitarProducto(codProducto : Integer) {
+
+
+
+
+	// comportamientos
+	
+	def solicitarProducto(codProducto_Aux : Integer) {
 		if (defaultSpace.participants.size > 2) 
 		{
 			println("Agente solicitando Producto")
-			emit(new SolicitarProducto(codProducto))
+			emit(new SolicitarProducto(codProducto_Aux))
 		} 
 		else 
 		{
