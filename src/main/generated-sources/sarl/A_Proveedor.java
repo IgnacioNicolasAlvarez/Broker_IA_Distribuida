@@ -12,12 +12,14 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -27,14 +29,34 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlElementType(19)
 @SuppressWarnings("all")
 public class A_Proveedor extends Agent {
+  private ArrayList<Producto> listaProductos;
+  
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Proveedor fue creado");
+    ArrayList<Producto> _arrayList = new ArrayList<Producto>();
+    this.listaProductos = _arrayList;
+    Producto _producto = new Producto(Integer.valueOf(1), Double.valueOf(10.50));
+    this.listaProductos.add(_producto);
   }
   
   private void $behaviorUnit$SolicitarPropuestasParaProducto$1(final SolicitarPropuestasParaProducto occurrence) {
     InputOutput.<String>println("Proveedor respondiendo al concurso");
     Integer codProd = occurrence.codigoProducto;
+    Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+    final Procedure1<Agent> _function = (Agent it) -> {
+      this.emitirBial(codProd);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(4000, _function);
+  }
+  
+  protected void emitirBial(final Integer codProd) {
+    for (final Producto x : this.listaProductos) {
+      Integer _codigo = x.getCodigo();
+      if ((codProd == null ? (_codigo == null) : (_codigo != null && codProd.intValue() == _codigo.doubleValue()))) {
+        InputOutput.<String>println("TENGO EL PRODUCTO");
+      }
+    }
   }
   
   @Extension
@@ -96,6 +118,21 @@ public class A_Proveedor extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$SolicitarPropuestasParaProducto$1(occurrence));
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public boolean equals(final Object obj) {
+    return super.equals(obj);
+  }
+  
+  @Override
+  @Pure
+  @SyntheticMember
+  public int hashCode() {
+    int result = super.hashCode();
+    return result;
   }
   
   @SyntheticMember

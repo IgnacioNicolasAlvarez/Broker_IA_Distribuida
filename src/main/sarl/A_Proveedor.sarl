@@ -6,6 +6,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
+import java.util.ArrayList
 
 /** 
  * @author ina
@@ -14,14 +15,33 @@ import io.sarl.core.Schedules
 agent A_Proveedor {
 	uses DefaultContextInteractions, Schedules, Logging
 	
+	var listaProductos : ArrayList<Producto>
+	
 	on Initialize {
 		info("Proveedor fue creado")
+		
+		listaProductos = new ArrayList<Producto>()
+		listaProductos.add(new Producto(1, 10.50))
 	}
 	
 	on SolicitarPropuestasParaProducto
 	{
 		println("Proveedor respondiendo al concurso")
 		var codProd = occurrence.codigoProducto
+		in(4000)[emitirBial(codProd)]
 	}
+	
+	def emitirBial(codProd: Integer)
+	{
+		for(x : listaProductos)
+		{
+			if(codProd == x.codigo)
+			{
+				println("TENGO EL PRODUCTO")
+			}
+		}	
+	}
+	
+	
 	
 }

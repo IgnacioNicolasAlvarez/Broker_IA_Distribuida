@@ -1,0 +1,29 @@
+/** 
+ * 
+ */
+
+/** 
+ * @author ina
+ * 
+ */
+class Producto extends Object {
+	
+	var codigo : Integer
+	var precio : Double
+	
+	new (v : Integer, x : Double)
+	{
+		codigo = v
+		precio = x
+	}
+	
+	def getCodigo : Integer
+	{
+		this.codigo
+	}
+	
+	def getPrecio : Double
+	{
+		this.precio
+	}
+}

@@ -19,7 +19,6 @@ agent BootAgent {
 		spawn(A_Broker)		
 		spawn(A_Proveedor)
 		spawn(A_Proveedor)
-		spawn(A_Proveedor)	
 	}
 
 	

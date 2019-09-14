@@ -36,3 +36,14 @@ event LlamarAConsurso
 		codigoProducto = v
 	}
 }
+
+event BialDeProveedor
+{
+	var deliver : Double
+	var price : Double
+
+	new (v : Double, x : Double) {
+		deliver = v
+		price = x
+	}
+}
