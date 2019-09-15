@@ -8,10 +8,10 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class LlamarAConsurso extends Event {
+public class LlamadoAConcurso extends Event {
   public Integer codigoProducto;
   
-  public LlamarAConsurso(final Integer v) {
+  public LlamadoAConcurso(final Integer v) {
     this.codigoProducto = v;
   }
   
@@ -25,7 +25,7 @@ public class LlamarAConsurso extends Event {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    LlamarAConsurso other = (LlamarAConsurso) obj;
+    LlamadoAConcurso other = (LlamadoAConcurso) obj;
     if (other.codigoProducto != this.codigoProducto)
       return false;
     return super.equals(obj);
@@ -42,7 +42,7 @@ public class LlamarAConsurso extends Event {
   }
   
   /**
-   * Returns a String representation of the LlamarAConsurso event's attributes only.
+   * Returns a String representation of the LlamadoAConcurso event's attributes only.
    */
   @SyntheticMember
   @Pure
@@ -50,4 +50,7 @@ public class LlamarAConsurso extends Event {
     super.toString(builder);
     builder.add("codigoProducto", this.codigoProducto);
   }
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 33952510L;
 }

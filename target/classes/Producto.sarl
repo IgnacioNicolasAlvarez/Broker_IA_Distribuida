@@ -27,6 +27,10 @@ class Producto extends Object {
 	def getStock : Integer {
 		this.stock
 	}
+
+	def setStock(x : Integer) {
+		this.stock = x
+	}
 	
 	def getPrecio : Double
 	{

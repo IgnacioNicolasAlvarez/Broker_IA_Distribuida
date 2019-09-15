@@ -8,14 +8,11 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class BialDeProveedor extends Event {
-  public Double deliver;
+public class SeleccionDeProducto extends Event {
+  public Integer codigoProducto;
   
-  public Double price;
-  
-  public BialDeProveedor(final Double v, final Double x) {
-    this.deliver = v;
-    this.price = x;
+  public SeleccionDeProducto(final Integer v) {
+    this.codigoProducto = v;
   }
   
   @Override
@@ -28,10 +25,8 @@ public class BialDeProveedor extends Event {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    BialDeProveedor other = (BialDeProveedor) obj;
-    if (Double.doubleToLongBits(other.deliver) != Double.doubleToLongBits(this.deliver))
-      return false;
-    if (Double.doubleToLongBits(other.price) != Double.doubleToLongBits(this.price))
+    SeleccionDeProducto other = (SeleccionDeProducto) obj;
+    if (other.codigoProducto != this.codigoProducto)
       return false;
     return super.equals(obj);
   }
@@ -42,19 +37,20 @@ public class BialDeProveedor extends Event {
   public int hashCode() {
     int result = super.hashCode();
     final int prime = 31;
-    result = prime * result + (int) (Double.doubleToLongBits(this.deliver) ^ (Double.doubleToLongBits(this.deliver) >>> 32));
-    result = prime * result + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) >>> 32));
+    result = prime * result + this.codigoProducto;
     return result;
   }
   
   /**
-   * Returns a String representation of the BialDeProveedor event's attributes only.
+   * Returns a String representation of the SeleccionDeProducto event's attributes only.
    */
   @SyntheticMember
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
-    builder.add("deliver", this.deliver);
-    builder.add("price", this.price);
+    builder.add("codigoProducto", this.codigoProducto);
   }
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 33952510L;
 }

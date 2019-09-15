@@ -6,6 +6,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.Schedules
 import io.sarl.core.DefaultContextInteractions
+import java.util.ArrayList
 
 /** 
  * @author ina
@@ -19,8 +20,24 @@ agent A_Cliente {
 		info("Se creó un agente Cliente.")
 		in(2000)[solicitarProducto(codProducto)]
 	}
-
-
+	
+	 on EnvioDePropuestas
+	 {
+		emit(new SeleccionDeProducto(seleccionarOpcion(occurrence.listaBial)))
+	 }
+	 
+	 on EnvioDeInstanciaDePedido_C
+	 {
+	 	if(occurrence.fueEnviado)
+	 	{
+	 		println("Se que viene")
+	 	}
+	 	else
+	 	{
+			println("Me dijeron que no")
+	 		
+	 	}
+	 }
 
 
 
@@ -30,13 +47,29 @@ agent A_Cliente {
 		if (defaultSpace.participants.size > 2) 
 		{
 			println("Agente solicitando Producto")
-			emit(new SolicitarProducto(codProducto_Aux))
+			emit(new SolicitudDeProductoDelCliente(codProducto_Aux))
 		} 
 		else 
 		{
 			println("Agente esperando al Broker")
 			in(2000)[solicitarProducto(codProducto)]
 		}
+	}
+	
+	def seleccionarOpcion(listaBial : ArrayList<Bial>) : Integer
+	{
+		var index = 0
+		var precioAux = listaBial.get(0).precioYDeliver
+		
+		for (a : listaBial) 
+		{
+			if(a.precioYDeliver < precioAux)
+			{
+				precioAux = a.precioYDeliver
+				index = listaBial.indexOf(a)
+			}
+		}
+		return listaBial.get(index).codigo
 	}
 
 	

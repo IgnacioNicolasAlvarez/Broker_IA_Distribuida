@@ -31,17 +31,42 @@ agent A_Proveedor {
 		cargarListaProductos(factorPrecio * precioBaseProducto, listaProductos, cantProductos)
 	}
 	
-	on SolicitarPropuestasParaProducto
+	on LlamadoAConcurso
 	{
 		println("Proveedor respondiendo al concurso")
-		var codProd = occurrence.codigoProducto
-		in(4000)[ComprobarExistencias(codProd)]
+		in(4000)[ComprobarExistencias(occurrence.codigoProducto)]
+	}
+	
+	on SolicitudDeInstanciaProducto
+	{
+		in(2000)[devolverProducto(occurrence.codigoProducto)]
+	}
+	
+	on ConfirmacionDePedido
+	{
+		in(2000)[concretarPedido(occurrence.codigoProducto)]
 	}
 	
 	
 	
-	
 	//comportamientos
+	
+	def concretarPedido(codProd_Aux : Integer)
+	{
+		var vf = false
+		
+		for (x : listaProductos) 
+		{
+			if (codProd_Aux == x.codigo && x.stock > 0) 
+			{
+				x.stock = x.stock - 1
+				vf = true
+			}
+		}
+
+		emit(new EnvioDeInstanciaDePedido(vf))
+	}
+
 	
 	def ComprobarExistencias(codProd_Aux: Integer)
 	{
@@ -59,4 +84,14 @@ agent A_Proveedor {
 		lista.add(new Producto(1, precioFactor, cantProd))
 	}
 	
+	def devolverProducto(codProd_Aux : Integer) 
+	{
+		for (x : listaProductos) 
+		{
+			if (codProd_Aux == x.codigo) 
+			{
+				emit(new EnvioDeBial(new Bial(x.codigo, x.precio, precioDeliver)))
+			}
+		}
+	}
 }

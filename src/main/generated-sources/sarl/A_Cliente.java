@@ -13,6 +13,7 @@ import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -41,6 +42,21 @@ public class A_Cliente extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(2000, _function);
   }
   
+  private void $behaviorUnit$EnvioDePropuestas$1(final EnvioDePropuestas occurrence) {
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    Integer _seleccionarOpcion = this.seleccionarOpcion(occurrence.listaBial);
+    SeleccionDeProducto _seleccionDeProducto = new SeleccionDeProducto(_seleccionarOpcion);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_seleccionDeProducto);
+  }
+  
+  private void $behaviorUnit$EnvioDeInstanciaDePedido_C$2(final EnvioDeInstanciaDePedido_C occurrence) {
+    if (occurrence.fueEnviado) {
+      InputOutput.<String>println("Se que viene");
+    } else {
+      InputOutput.<String>println("Me dijeron que no");
+    }
+  }
+  
   protected AgentTask solicitarProducto(final Integer codProducto_Aux) {
     AgentTask _xifexpression = null;
     DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
@@ -48,8 +64,8 @@ public class A_Cliente extends Agent {
     if ((_size > 2)) {
       InputOutput.<String>println("Agente solicitando Producto");
       DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-      SolicitarProducto _solicitarProducto = new SolicitarProducto(codProducto_Aux);
-      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_solicitarProducto);
+      SolicitudDeProductoDelCliente _solicitudDeProductoDelCliente = new SolicitudDeProductoDelCliente(codProducto_Aux);
+      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_solicitudDeProductoDelCliente);
     } else {
       AgentTask _xblockexpression = null;
       {
@@ -63,6 +79,19 @@ public class A_Cliente extends Agent {
       _xifexpression = _xblockexpression;
     }
     return _xifexpression;
+  }
+  
+  protected Integer seleccionarOpcion(final ArrayList<Bial> listaBial) {
+    int index = 0;
+    Double precioAux = listaBial.get(0).getPrecioYDeliver();
+    for (final Bial a : listaBial) {
+      Double _precioYDeliver = a.getPrecioYDeliver();
+      if ((_precioYDeliver.doubleValue() < precioAux.doubleValue())) {
+        precioAux = a.getPrecioYDeliver();
+        index = listaBial.indexOf(a);
+      }
+    }
+    return listaBial.get(index).getCodigo();
   }
   
   @Extension
@@ -116,6 +145,22 @@ public class A_Cliente extends Agent {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$EnvioDeInstanciaDePedido_C(final EnvioDeInstanciaDePedido_C occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$EnvioDeInstanciaDePedido_C$2(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$EnvioDePropuestas(final EnvioDePropuestas occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$EnvioDePropuestas$1(occurrence));
   }
   
   @Override

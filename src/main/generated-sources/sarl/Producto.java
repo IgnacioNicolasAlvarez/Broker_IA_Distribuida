@@ -32,6 +32,10 @@ public class Producto {
     return this.stock;
   }
   
+  public void setStock(final Integer x) {
+    this.stock = x;
+  }
+  
   @Pure
   public Double getPrecio() {
     return this.precio;

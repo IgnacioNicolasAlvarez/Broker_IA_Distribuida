@@ -45,14 +45,43 @@ public class A_Proveedor extends Agent {
     this.cargarListaProductos(Double.valueOf((factorPrecio * precioBaseProducto)), this.listaProductos, Integer.valueOf(cantProductos));
   }
   
-  private void $behaviorUnit$SolicitarPropuestasParaProducto$1(final SolicitarPropuestasParaProducto occurrence) {
+  private void $behaviorUnit$LlamadoAConcurso$1(final LlamadoAConcurso occurrence) {
     InputOutput.<String>println("Proveedor respondiendo al concurso");
-    Integer codProd = occurrence.codigoProducto;
     Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
     final Procedure1<Agent> _function = (Agent it) -> {
-      this.ComprobarExistencias(codProd);
+      this.ComprobarExistencias(occurrence.codigoProducto);
     };
     _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(4000, _function);
+  }
+  
+  private void $behaviorUnit$SolicitudDeInstanciaProducto$2(final SolicitudDeInstanciaProducto occurrence) {
+    Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+    final Procedure1<Agent> _function = (Agent it) -> {
+      this.devolverProducto(occurrence.codigoProducto);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(2000, _function);
+  }
+  
+  private void $behaviorUnit$ConfirmacionDePedido$3(final ConfirmacionDePedido occurrence) {
+    Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+    final Procedure1<Agent> _function = (Agent it) -> {
+      this.concretarPedido(occurrence.codigoProducto);
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(2000, _function);
+  }
+  
+  protected void concretarPedido(final Integer codProd_Aux) {
+    boolean vf = false;
+    for (final Producto x : this.listaProductos) {
+      if (((codProd_Aux == null ? (x.getCodigo() == null) : (x.getCodigo() != null && codProd_Aux.intValue() == x.getCodigo().doubleValue())) && (x.getStock().intValue() > 0))) {
+        Integer _stock = x.getStock();
+        x.setStock(Integer.valueOf((((_stock) == null ? 0 : (_stock).intValue()) - 1)));
+        vf = true;
+      }
+    }
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    EnvioDeInstanciaDePedido _envioDeInstanciaDePedido = new EnvioDeInstanciaDePedido(vf);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_envioDeInstanciaDePedido);
   }
   
   protected void ComprobarExistencias(final Integer codProd_Aux) {
@@ -70,6 +99,20 @@ public class A_Proveedor extends Agent {
   protected boolean cargarListaProductos(final Double precioFactor, final ArrayList<Producto> lista, final Integer cantProd) {
     Producto _producto = new Producto(Integer.valueOf(1), precioFactor, cantProd);
     return lista.add(_producto);
+  }
+  
+  protected void devolverProducto(final Integer codProd_Aux) {
+    for (final Producto x : this.listaProductos) {
+      Integer _codigo = x.getCodigo();
+      if ((codProd_Aux == null ? (_codigo == null) : (_codigo != null && codProd_Aux.intValue() == _codigo.doubleValue()))) {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        Integer _codigo_1 = x.getCodigo();
+        Double _precio = x.getPrecio();
+        Bial _bial = new Bial(_codigo_1, _precio, Double.valueOf(this.precioDeliver));
+        EnvioDeBial _envioDeBial = new EnvioDeBial(_bial);
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_envioDeBial);
+      }
+    }
   }
   
   @Extension
@@ -127,10 +170,26 @@ public class A_Proveedor extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$SolicitarPropuestasParaProducto(final SolicitarPropuestasParaProducto occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$SolicitudDeInstanciaProducto(final SolicitudDeInstanciaProducto occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$SolicitarPropuestasParaProducto$1(occurrence));
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$SolicitudDeInstanciaProducto$2(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$ConfirmacionDePedido(final ConfirmacionDePedido occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ConfirmacionDePedido$3(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$LlamadoAConcurso(final LlamadoAConcurso occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$LlamadoAConcurso$1(occurrence));
   }
   
   @Override

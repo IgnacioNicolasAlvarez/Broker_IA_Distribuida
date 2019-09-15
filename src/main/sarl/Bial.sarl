@@ -1,0 +1,37 @@
+/** 
+ * 
+ */
+
+/** 
+ * @author ina
+ * 
+ */
+class Bial extends Object {
+
+	var codigo : Integer
+	var precio : Double
+	var deliver : Double
+
+	new (v : Integer, x : Double, s : Double) {
+		codigo = v
+		precio = x
+		deliver = s
+	}
+
+	def getCodigo : Integer {
+		this.codigo
+	}
+
+	def getDeliver : Double {
+		this.deliver
+	}
+
+	def getPrecio : Double {
+		this.precio
+	}
+	
+	def getPrecioYDeliver : Double 
+	{
+		this.precio + this.deliver
+	}
+}

@@ -2,10 +2,11 @@
  * 
  */
 
+import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Logging
-import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
+import java.util.ArrayList
 
 /** 
  * @author ina
@@ -14,12 +15,14 @@ import io.sarl.core.Schedules
 agent A_Broker {
 	uses DefaultContextInteractions, Schedules, Logging
 
+	var listaBial : ArrayList<Bial>
 
 	on Initialize {
 		info("Se creó un agente Broker")
+		listaBial = new ArrayList<Bial>()
 	}
 
-	on SolicitarProducto
+	on SolicitudDeProductoDelCliente
 	{
 		println("Broker recibió solicitud de Pedido")
 		var codProd = occurrence.codigoProducto
@@ -29,28 +32,54 @@ agent A_Broker {
 	///ver
 	on InformarExistencias [occurrence.disponibilidad]
 	{
-		println("Hay Existencias")
-		// solicitarUnaExistencia
+		solicitarExistencia(occurrence.codigoProducto)	
 	}
 
 	on InformarExistencias [occurrence.disponibilidad == false] {
-		println("No Hay Existencias")
+		println("No Hay Existencias del producto: " + occurrence.codigoProducto)
+	}
+	
+	on EnvioDeBial [listaBial.size > 1]
+	{
+		var x = evaluarLista()
+		emit(new EnvioDePropuestas(x))
+		
 	}
 
+	on EnvioDeBial [listaBial.size <= 1] {
+		listaBial.add(occurrence.bial)
+		println("Esperando más bials de proveedores")
+	}
 	
-	// comportamientos
+	on SeleccionDeProducto {
+		emit(new ConfirmacionDePedido(occurrence.codigoProducto))
+	}
+	
+	on EnvioDeInstanciaDePedido
+	{
+		emit(new EnvioDeInstanciaDePedido_C(occurrence.fueEnviado))	
+	}
 	
 	def LlamarAConsurso(codProducto : Integer) 
 	{
 		if (defaultSpace.participants.size > 3) 
 		{
 			println("Broker llamando a consurso por producto: " + codProducto)
-			emit(new SolicitarPropuestasParaProducto(codProducto))
+			emit(new LlamadoAConcurso(codProducto))
 		} else {
 			println("Broker esperando al Proveedores")
-			in(2000)[LlamarAConsurso(codProducto)]
+			in(5000)[LlamarAConsurso(codProducto)]
 		}
 	}
 	
+	def solicitarExistencia(codProducto : Integer)
+	{
+		emit(new SolicitudDeInstanciaProducto(codProducto))
+	}
+	
+	def evaluarLista() : ArrayList<Bial>
+	{
+		return listaBial
+	}
 	 
 }

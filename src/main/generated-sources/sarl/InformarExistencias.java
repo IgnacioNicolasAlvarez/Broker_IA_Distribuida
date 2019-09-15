@@ -57,4 +57,7 @@ public class InformarExistencias extends Event {
     builder.add("codigoProducto", this.codigoProducto);
     builder.add("disponibilidad", this.disponibilidad);
   }
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 315939755L;
 }

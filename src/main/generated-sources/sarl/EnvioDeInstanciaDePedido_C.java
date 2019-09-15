@@ -8,11 +8,11 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class SolicitarPropuestasParaProducto extends Event {
-  public Integer codigoProducto;
+public class EnvioDeInstanciaDePedido_C extends Event {
+  public boolean fueEnviado;
   
-  public SolicitarPropuestasParaProducto(final Integer v) {
-    this.codigoProducto = v;
+  public EnvioDeInstanciaDePedido_C(final boolean v) {
+    this.fueEnviado = v;
   }
   
   @Override
@@ -25,8 +25,8 @@ public class SolicitarPropuestasParaProducto extends Event {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    SolicitarPropuestasParaProducto other = (SolicitarPropuestasParaProducto) obj;
-    if (other.codigoProducto != this.codigoProducto)
+    EnvioDeInstanciaDePedido_C other = (EnvioDeInstanciaDePedido_C) obj;
+    if (other.fueEnviado != this.fueEnviado)
       return false;
     return super.equals(obj);
   }
@@ -37,17 +37,20 @@ public class SolicitarPropuestasParaProducto extends Event {
   public int hashCode() {
     int result = super.hashCode();
     final int prime = 31;
-    result = prime * result + this.codigoProducto;
+    result = prime * result + (this.fueEnviado ? 1231 : 1237);
     return result;
   }
   
   /**
-   * Returns a String representation of the SolicitarPropuestasParaProducto event's attributes only.
+   * Returns a String representation of the EnvioDeInstanciaDePedido_C event's attributes only.
    */
   @SyntheticMember
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
-    builder.add("codigoProducto", this.codigoProducto);
+    builder.add("fueEnviado", this.fueEnviado);
   }
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 3075666783L;
 }

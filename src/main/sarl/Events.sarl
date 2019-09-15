@@ -1,3 +1,5 @@
+import java.util.ArrayList
+
 /** 
  * 
  */
@@ -10,7 +12,7 @@ event Events
 
 //CRITERIOS: DELIVER y PRICE
 
-event SolicitarProducto
+event SolicitudDeProductoDelCliente
 {
 	var codigoProducto : Integer
 
@@ -19,7 +21,7 @@ event SolicitarProducto
 	}
 }
 
-event SolicitarPropuestasParaProducto
+event LlamadoAConcurso
 {
 	var codigoProducto : Integer
 
@@ -28,23 +30,11 @@ event SolicitarPropuestasParaProducto
 	}
 }
 
-event LlamarAConsurso
-{
+event SolicitudDeInstanciaProducto {
 	var codigoProducto : Integer
 
 	new (v : Integer) {
 		codigoProducto = v
-	}
-}
-
-event BialDeProveedor
-{
-	var deliver : Double
-	var price : Double
-
-	new (v : Double, x : Double) {
-		deliver = v
-		price = x
 	}
 }
 
@@ -55,5 +45,56 @@ event InformarExistencias {
 	new (v : Integer, x : Boolean) {
 		codigoProducto = v
 		disponibilidad = x
+	}
+}
+
+event EnvioDeBial {
+	
+	var bial : Bial
+	
+	new (v : Bial)
+	{
+		bial = v
+	}
+}
+
+event EnvioDePropuestas{
+	var listaBial : ArrayList<Bial>
+
+	new (v : ArrayList<Bial>) {
+		listaBial = v
+	}
+}
+
+event SeleccionDeProducto {
+	var codigoProducto : Integer
+
+	new (v : Integer) {
+		codigoProducto = v
+	}
+}
+
+event ConfirmacionDePedido {
+	var codigoProducto : Integer
+
+	new (v : Integer) {
+		codigoProducto = v
+	}
+}
+
+event EnvioDeInstanciaDePedido
+{
+	var fueEnviado : boolean
+
+	new (v : boolean) {
+		fueEnviado = v
+	}
+}
+
+event EnvioDeInstanciaDePedido_C {
+	var fueEnviado : boolean
+
+	new (v : boolean) {
+		fueEnviado = v
 	}
 }
