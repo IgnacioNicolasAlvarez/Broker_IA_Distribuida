@@ -5,6 +5,7 @@
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Logging
+import java.util.List
 
 /** 
  * @author ina
@@ -14,11 +15,13 @@ agent BootAgent {
 	uses Logging, Lifecycle
 
 	on Initialize {
-
+		
+		var p1 : List<Producto> = #[ new Producto(5,5.50,1)]
+		
 		spawn(A_Cliente)
 		spawn(A_Broker)		
-		spawn(A_Proveedor)
-		spawn(A_Proveedor)
+		spawn(A_Proveedor, p1)
+
 	}
 
 	

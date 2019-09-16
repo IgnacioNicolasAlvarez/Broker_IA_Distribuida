@@ -7,6 +7,7 @@ import io.sarl.core.Logging
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
 import java.util.ArrayList
+import java.util.List
 
 /** 
  * @author ina
@@ -23,6 +24,10 @@ agent A_Proveedor {
 		info("Proveedor fue creado")
 		precioDeliver = 15.0
 		
+		//
+		//var x : List<Producto> = occurrence.parameters.get(0) as List<Producto>
+	 	//
+	 	
 		var factorPrecio = Math.random()
 		var precioBaseProducto = 10
 		var cantProductos = 10
